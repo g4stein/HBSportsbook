@@ -73,7 +73,9 @@ function SearchDialog({ onClose }: { onClose: () => void }) {
   const now = useStore((s) => Math.floor(s.now / 30000) * 30000);
   const navigate = useNavigate();
   const input = useRef<HTMLInputElement>(null);
-  useEffect(() => input.current?.focus(), []);
+  useEffect(() => {
+    input.current?.focus();
+  }, []);
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = ''; };
@@ -114,7 +116,9 @@ function SearchDialog({ onClose }: { onClose: () => void }) {
     return out.slice(0, 24);
   }, [q, matchesMap, now]);
 
-  useEffect(() => setActive(0), [q]);
+  useEffect(() => {
+    setActive(0);
+  }, [q]);
 
   const go = (r: Result) => {
     const next = [r.label, ...recent.filter((x) => x !== r.label)].slice(0, 6);

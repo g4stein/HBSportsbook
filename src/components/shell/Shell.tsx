@@ -14,7 +14,9 @@ export function Shell({ children }: { children: ReactNode }) {
   const loc = useLocation();
   const onBetsPage = loc.pathname === '/sports/bets';
   const wide = useMedia('(min-width: 1280px)');
-  useEffect(() => window.scrollTo({ top: 0 }), [loc.pathname]);
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [loc.pathname]);
 
   return (
     <div className="min-h-dvh">
