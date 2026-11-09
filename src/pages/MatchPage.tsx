@@ -52,6 +52,7 @@ function MatchView({ id }: { id: string }) {
 
   return (
     <div className="space-y-4">
+      <h1 className="sr-only">{teamById[m.home].name} v {teamById[m.away].name}</h1>
       <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 overflow-hidden text-[13px] text-tx3">
         <Link to="/sports" className="shrink-0 hover:text-tx">Sports</Link>
         <ChevronRight size={14} className="shrink-0" />
