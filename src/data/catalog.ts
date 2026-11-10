@@ -20,12 +20,27 @@ export const SPORTS: Sport[] = [
 
 export const sportById = Object.fromEntries(SPORTS.map((s) => [s.id, s])) as Record<SportId, Sport>;
 
+/** Countries used by the Football A–Z. Codes map to the flag shapes in Flag.tsx. */
+export const COUNTRIES: Record<string, string> = {
+  ENG: 'England', ESP: 'Spain', ITA: 'Italy', GER: 'Germany', FRA: 'France',
+  NED: 'Netherlands', POR: 'Portugal', SCO: 'Scotland', EUR: 'Europe',
+};
+
 export const COMPETITIONS: Competition[] = [
-  { id: 'pl', sport: 'football', name: 'Premier League', short: 'PL', region: 'England', colors: ['#5B2A86', '#3CF2C2'], featured: true },
-  { id: 'ucl', sport: 'football', name: 'Champions League', short: 'UCL', region: 'Europe', colors: ['#0E2A6B', '#C9D6FF'], featured: true },
-  { id: 'laliga', sport: 'football', name: 'LaLiga', short: 'LL', region: 'Spain', colors: ['#E63946', '#FFB703'], featured: true },
-  { id: 'seriea', sport: 'football', name: 'Serie A', short: 'SA', region: 'Italy', colors: ['#0B6E4F', '#9BE564'], featured: true },
-  { id: 'bundesliga', sport: 'football', name: 'Bundesliga', short: 'BL', region: 'Germany', colors: ['#B5121B', '#F2F2F2'], featured: true },
+  { id: 'pl', sport: 'football', name: 'Premier League', short: 'PL', region: 'England', country: 'ENG', tier: 1, colors: ['#5B2A86', '#3CF2C2'], featured: true },
+  { id: 'ucl', sport: 'football', name: 'Champions League', short: 'UCL', region: 'Europe', country: 'EUR', tier: 1, colors: ['#0E2A6B', '#C9D6FF'], featured: true },
+  { id: 'laliga', sport: 'football', name: 'LaLiga', short: 'LL', region: 'Spain', country: 'ESP', tier: 1, colors: ['#E63946', '#FFB703'], featured: true },
+  { id: 'seriea', sport: 'football', name: 'Serie A', short: 'SA', region: 'Italy', country: 'ITA', tier: 1, colors: ['#0B6E4F', '#9BE564'], featured: true },
+  { id: 'bundesliga', sport: 'football', name: 'Bundesliga', short: 'BL', region: 'Germany', country: 'GER', tier: 1, colors: ['#B5121B', '#F2F2F2'], featured: true },
+  { id: 'champ', sport: 'football', name: 'Championship', short: 'CH', region: 'England', country: 'ENG', tier: 2, colors: ['#1D3D8F', '#E4B94A'] },
+  { id: 'l1', sport: 'football', name: 'League One', short: 'L1', region: 'England', country: 'ENG', tier: 3, colors: ['#7A1F2B', '#F4C2C2'] },
+  { id: 'segunda', sport: 'football', name: 'Segunda División', short: 'SD', region: 'Spain', country: 'ESP', tier: 2, colors: ['#3B3B98', '#F7D046'] },
+  { id: 'serieb', sport: 'football', name: 'Serie B', short: 'SB', region: 'Italy', country: 'ITA', tier: 2, colors: ['#1E6091', '#99D98C'] },
+  { id: 'bl2', sport: 'football', name: '2. Bundesliga', short: 'B2', region: 'Germany', country: 'GER', tier: 2, colors: ['#5C0F14', '#E9E9E9'] },
+  { id: 'ligue1', sport: 'football', name: 'Ligue 1', short: 'L1', region: 'France', country: 'FRA', tier: 1, colors: ['#0D1B4C', '#D7F75B'] },
+  { id: 'ered', sport: 'football', name: 'Eredivisie', short: 'ED', region: 'Netherlands', country: 'NED', tier: 1, colors: ['#E85D04', '#FFFFFF'] },
+  { id: 'primeira', sport: 'football', name: 'Primeira Liga', short: 'PT', region: 'Portugal', country: 'POR', tier: 1, colors: ['#006D3B', '#E63946'] },
+  { id: 'spl', sport: 'football', name: 'Premiership', short: 'SP', region: 'Scotland', country: 'SCO', tier: 1, colors: ['#1B2A6B', '#7CC6FE'] },
   { id: 'atp', sport: 'tennis', name: 'ATP Tour · Indoor', short: 'ATP', region: 'World', colors: ['#1B4D89', '#7FD1FF'] },
   { id: 'wta', sport: 'tennis', name: 'WTA Tour · Indoor', short: 'WTA', region: 'World', colors: ['#6A2C70', '#F9A8D4'] },
   { id: 'nba', sport: 'basketball', name: 'NBA', short: 'NBA', region: 'USA', colors: ['#17408B', '#C9082A'] },
@@ -102,17 +117,75 @@ const FOOTBALL: Record<string, T[]> = {
     ['psv', 'PSV', 'PSV', 0.73, '#ED1C24', '#FFFFFF'],
     ['bru', 'Club Brugge', 'BRU', 0.67, '#0070C0', '#000000'],
   ],
+  champ: [
+    ['lee', 'Leeds United', 'LEE', 0.62, '#F4F6F8', '#1D428A'],
+    ['bur', 'Burnley', 'BUR', 0.6, '#6C1D45', '#99D6EA'],
+    ['shu', 'Sheffield United', 'SHU', 0.56, '#EE2737', '#000000'],
+    ['mid', 'Middlesbrough', 'MID', 0.55, '#E11B22', '#FFFFFF'],
+    ['nor', 'Norwich City', 'NOR', 0.54, '#FFF200', '#00A650'],
+    ['wba', 'West Brom', 'WBA', 0.55, '#122F67', '#FFFFFF'],
+  ],
+  l1: [
+    ['bol', 'Bolton', 'BOL', 0.5, '#F4F6F8', '#263C7E'],
+    ['wig', 'Wigan', 'WIG', 0.47, '#1D59AF', '#FFFFFF'],
+    ['rea', 'Reading', 'REA', 0.46, '#004494', '#FFFFFF'],
+    ['bar-e', 'Barnsley', 'BAR', 0.47, '#D71920', '#FFFFFF'],
+  ],
+  segunda: [
+    ['zar', 'Real Zaragoza', 'ZAR', 0.5, '#F4F6F8', '#0033A0'],
+    ['spg', 'Sporting Gijón', 'SPG', 0.52, '#E30613', '#FFFFFF'],
+    ['rac', 'Racing Santander', 'RAC', 0.51, '#006A4E', '#FFFFFF'],
+    ['dep', 'Deportivo', 'DEP', 0.53, '#0060A9', '#FFFFFF'],
+  ],
+  serieb: [
+    ['sam', 'Sampdoria', 'SAM', 0.52, '#1B5FAA', '#FFFFFF'],
+    ['pal', 'Palermo', 'PAL', 0.53, '#F5A9C8', '#000000'],
+    ['bari', 'Bari', 'BAR', 0.48, '#F4F6F8', '#D2232A'],
+    ['cre', 'Cremonese', 'CRE', 0.5, '#9E1B32', '#A5A9AD'],
+  ],
+  bl2: [
+    ['s04', 'Schalke 04', 'S04', 0.56, '#004D9D', '#FFFFFF'],
+    ['bsc', 'Hertha BSC', 'BSC', 0.54, '#005CA9', '#FFFFFF'],
+    ['h96', 'Hannover 96', 'H96', 0.52, '#00A54F', '#000000'],
+    ['fcn', 'Nürnberg', 'FCN', 0.5, '#AA1124', '#FFFFFF'],
+  ],
+  ligue1: [
+    ['om', 'Marseille', 'OM', 0.76, '#2FAEE0', '#FFFFFF'],
+    ['ol', 'Lyon', 'OL', 0.71, '#F4F6F8', '#DA001A'],
+    ['asm', 'Monaco', 'ASM', 0.74, '#E51B22', '#FFFFFF'],
+    ['losc', 'Lille', 'LIL', 0.72, '#E01E13', '#20325F'],
+    ['rcl', 'Lens', 'RCL', 0.69, '#FFE500', '#E2001A'],
+    ['ogcn', 'Nice', 'NIC', 0.68, '#C8102E', '#000000'],
+  ],
+  ered: [
+    ['ajx', 'Ajax', 'AJX', 0.73, '#F4F6F8', '#D2122E'],
+    ['fey', 'Feyenoord', 'FEY', 0.74, '#E30613', '#FFFFFF'],
+    ['az', 'AZ Alkmaar', 'AZ', 0.7, '#E30613', '#FFFFFF'],
+    ['twe', 'Twente', 'TWE', 0.66, '#E2001A', '#FFFFFF'],
+  ],
+  primeira: [
+    ['sb', 'Braga', 'SCB', 0.68, '#E2001A', '#FFFFFF'],
+    ['vsc', 'Vitória SC', 'VSC', 0.6, '#F4F6F8', '#000000'],
+    ['fam', 'Famalicão', 'FAM', 0.57, '#003DA5', '#FFFFFF'],
+    ['gil', 'Gil Vicente', 'GIL', 0.54, '#E2001A', '#003DA5'],
+  ],
+  spl: [
+    ['ran', 'Rangers', 'RAN', 0.7, '#1B458F', '#FFFFFF'],
+    ['hea', 'Hearts', 'HEA', 0.6, '#8B1E3F', '#FFFFFF'],
+    ['abd', 'Aberdeen', 'ABD', 0.58, '#E2001A', '#FFFFFF'],
+    ['hib', 'Hibernian', 'HIB', 0.57, '#006B3F', '#FFFFFF'],
+  ],
 };
 
 const OTHER: Record<SportId, T[]> = {
   football: [],
   tennis: [
-    ['t-moravec', 'A. Moravec', 'MOR', 0.74, '#7FD1FF', '#0B1920'],
-    ['t-ferro', 'D. Ferro', 'FER', 0.68, '#FCA5A5', '#0B1920'],
-    ['t-lindahl', 'H. Lindahl', 'LIN', 0.7, '#A7F3D0', '#0B1920'],
-    ['t-arata', 'K. Arata', 'ARA', 0.72, '#FDE68A', '#0B1920'],
-    ['t-navarro', 'I. Navarro', 'NAV', 0.71, '#F9A8D4', '#0B1920'],
-    ['t-brandt', 'L. Brandt', 'BRA', 0.69, '#C4B5FD', '#0B1920'],
+    ['t-moravec', 'A. Velkaro', 'VEL', 0.74, '#7FD1FF', '#0B1920'],
+    ['t-ferro', 'D. Quarnell', 'QUA', 0.68, '#FCA5A5', '#0B1920'],
+    ['t-lindahl', 'H. Ostrevik', 'OST', 0.7, '#A7F3D0', '#0B1920'],
+    ['t-arata', 'K. Tamsyrin', 'TAM', 0.72, '#FDE68A', '#0B1920'],
+    ['t-navarro', 'I. Pellacombe', 'PEL', 0.71, '#F9A8D4', '#0B1920'],
+    ['t-brandt', 'L. Dravenholt', 'DRA', 0.69, '#C4B5FD', '#0B1920'],
   ],
   basketball: [
     ['lal', 'LA Lakers', 'LAL', 0.74, '#552583', '#FDB927'],
@@ -162,17 +235,18 @@ export const teamHomeComp: Record<string, string> = Object.fromEntries(
 
 const HAND: Record<string, [string, Player['pos'], number][]> = {
   ars: [
-    ['Theo Marlowe', 'FW', 0.24], ['Kai Ashworth', 'FW', 0.2], ['Joel Okafor', 'FW', 0.12],
-    ['Rúben Sato', 'MF', 0.13], ['Elio Vance', 'MF', 0.1], ['Dario Pell', 'MF', 0.06], ['Max Lindqvist', 'DF', 0.05],
+    ['Theo Marlowick', 'FW', 0.24], ['Kai Ashvendor', 'FW', 0.2], ['Jory Okanbe', 'FW', 0.12],
+    ['Rúben Saltaro', 'MF', 0.13], ['Elio Vantrell', 'MF', 0.1], ['Dario Pellquist', 'MF', 0.06], ['Max Lindoravi', 'DF', 0.05],
   ],
   bha: [
-    ['Jonah Rees', 'FW', 0.25], ['Mateo Kuyt', 'FW', 0.17], ['Ivo Petrak', 'FW', 0.11],
-    ['Sami Adeyemi', 'MF', 0.14], ['Luca Brennan', 'MF', 0.1], ['Noah Carvalho', 'DF', 0.05],
+    ['Jonah Reskel', 'FW', 0.25], ['Mateo Kuvraine', 'FW', 0.17], ['Ivo Petrakos', 'FW', 0.11],
+    ['Sami Adevolu', 'MF', 0.14], ['Luca Brenmoor', 'MF', 0.1], ['Noah Carvelin', 'DF', 0.05],
   ],
 };
 
 const FIRST = ['Adrian', 'Bruno', 'Caio', 'Dani', 'Emil', 'Felix', 'Gabri', 'Hugo', 'Ilan', 'Jonas', 'Kofi', 'Leon', 'Marco', 'Nico', 'Omar', 'Paolo', 'Rafa', 'Sven', 'Tomas', 'Yann', 'Ezra', 'Milo', 'Aron', 'Lior', 'Iker', 'Oskar', 'Teo', 'Renzo', 'Matis', 'Joao'];
-const LAST = ['Albers', 'Brandt', 'Costa', 'Dahl', 'Esposito', 'Ferreira', 'Gallo', 'Hartmann', 'Iversen', 'Janssen', 'Kovac', 'Lindgren', 'Moreau', 'Nunez', 'Okoro', 'Pereira', 'Quint', 'Rossi', 'Sandoval', 'Tavares', 'Ulloa', 'Varga', 'Weber', 'Yilmaz', 'Zanetti', 'Marin', 'Kessler', 'Duval', 'Ortega', 'Bianchi'];
+// Invented surnames: built from made-up syllables so no name matches a real athlete.
+const LAST = ['Albrevan', 'Brakhollow', 'Castrevi', 'Dahlvane', 'Esporalt', 'Ferrovin', 'Galverra', 'Hartovek', 'Iverlund', 'Jannevik', 'Kovarelle', 'Lindomar', 'Moraveth', 'Nuvarin', 'Okembra', 'Perravalt', 'Quintaro', 'Rossenvar', 'Sandrovic', 'Tavellon', 'Ullarven', 'Vargamor', 'Webrandt', 'Yilvaren', 'Zanettor', 'Marivold', 'Kesmarin', 'Duvalcourt', 'Ortevan', 'Biancoret'];
 const SHAPE: [Player['pos'], number][] = [['FW', 0.26], ['FW', 0.17], ['MF', 0.13], ['MF', 0.1], ['FW', 0.1], ['DF', 0.05]];
 
 export const PLAYERS: Player[] = TEAMS.filter((t) => t.sport === 'football').flatMap((t) => {

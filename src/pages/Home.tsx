@@ -11,6 +11,9 @@ import { OddsButton } from '../components/OddsButton';
 import { SportIcon } from '../components/icons';
 import { selId } from '../engine/pricing';
 import { useShallowIds } from './useIds';
+import { MatchCarousel } from '../components/MatchCard';
+import { Flag } from '../components/Flag';
+import { COUNTRIES } from '../data/catalog';
 
 export function Home() {
   const nothingLive = useStore((s) => s.demo.nothingLive);
@@ -23,6 +26,10 @@ export function Home() {
     (a, b) => (a.status === 'live' ? -1 : 0) - (b.status === 'live' ? -1 : 0) || a.kickoff - b.kickoff,
   );
   const live = nothingLive ? [] : liveIds;
+  const popular = useShallowIds(
+    (m, now) => m.id !== FEATURED_MATCH_ID && m.status !== 'ft' && (m.sport !== 'football' || !!COMPETITIONS.find((c) => c.id === m.compId)?.featured) && m.kickoff - now < 30 * 3600_000,
+    (a, b) => (a.status === 'live' ? -1 : 0) - (b.status === 'live' ? -1 : 0) || (a.sport === 'football' ? 0 : 1) - (b.sport === 'football' ? 0 : 1) || a.kickoff - b.kickoff,
+  );
   const featuredLive = useStore((s) => s.matches[FEATURED_MATCH_ID]?.status === 'live' || s.matches[FEATURED_MATCH_ID]?.status === 'ht');
 
   return (
@@ -35,6 +42,11 @@ export function Home() {
         <SearchField />
         <SportsNav />
       </div>
+
+      <section aria-labelledby="popular">
+        <div id="popular"><SectionHead title="Popular" /></div>
+        <MatchCarousel ids={(nothingLive ? popular.filter((id) => !liveIds.includes(id)) : popular).slice(0, 10)} label="Popular matches" />
+      </section>
 
       <OpenBookIntro />
 
@@ -94,8 +106,8 @@ function TopCompetitions() {
             <CompBadge compId={c.id} size={40} />
             <span className="min-w-0 flex-1">
               <span className="block truncate font-display text-[15px] font-bold text-tx">{c.name}</span>
-              <span className="block text-[12px] text-tx3">
-                {c.region} · {ms.length} matches{live > 0 && <span className="font-semibold text-live"> · {live} live</span>}
+              <span className="flex items-center gap-1 text-[12px] text-tx3">
+                <Flag code={c.country!} size={13} /> {COUNTRIES[c.country!]} · {ms.length} matches{live > 0 && <span className="font-semibold text-live"> · {live} live</span>}
               </span>
             </span>
             <FollowButton kind="comp" id={c.id} name={c.name} size="sm" />

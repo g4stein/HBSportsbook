@@ -38,6 +38,7 @@ interface FootSpec {
   goals?: [side: 'h' | 'a', minute: number, player: number | null][];
   corners?: [number, number];
   cards?: [number, number];
+  reds?: [number, number];
 }
 
 function football(id: string, s: FootSpec, now: number): Match {
@@ -69,6 +70,7 @@ function football(id: string, s: FootSpec, now: number): Match {
     goals,
     corners: s.corners ?? [0, 0],
     cards: s.cards ?? [0, 0],
+    reds: s.reds ?? [0, 0],
     cornerLog: interleave(s.corners ?? [0, 0]),
     lh,
     la,
@@ -122,6 +124,7 @@ function other(id: string, s: OtherSpec, now: number): Match {
     goals: [],
     corners: [0, 0],
     cards: [0, 0],
+    reds: [0, 0],
     cornerLog: [],
     lh: 0,
     la: 0,
@@ -146,7 +149,7 @@ export function buildFixtures(now = Date.now()): Match[] {
     // ── Football · live ────────────────────────────────────────────────
     F('ars-bha', { comp: 'pl', home: 'ars', away: 'bha', minute: 58, goals: [['h', 23, 0], ['a', 41, 0], ['h', 55, 1]], corners: [6, 3], cards: [1, 2] }),
     F('liv-new', { comp: 'pl', home: 'liv', away: 'new', minute: 34, corners: [4, 1], cards: [0, 1] }),
-    F('eve-whu', { comp: 'pl', home: 'eve', away: 'whu', minute: 84, goals: [['a', 12, 2], ['h', 50, 0], ['a', 77, 0]], corners: [5, 7], cards: [3, 2] }),
+    F('eve-whu', { comp: 'pl', home: 'eve', away: 'whu', minute: 84, goals: [['a', 12, 2], ['h', 50, 0], ['a', 77, 0]], corners: [5, 7], cards: [3, 2], reds: [1, 0] }),
     F('rso-vil', { comp: 'laliga', home: 'rso', away: 'vil', minute: 71, goals: [['h', 64, 1]], corners: [5, 4], cards: [2, 3] }),
     F('nap-rom', { comp: 'seriea', home: 'nap', away: 'rom', minute: 12, corners: [1, 0] }),
     F('b04-vfb', { comp: 'bundesliga', home: 'b04', away: 'vfb', minute: 49, goals: [['h', 8, 0], ['a', 30, 1], ['h', 47, 2]], corners: [4, 2], cards: [1, 1] }),
@@ -177,6 +180,28 @@ export function buildFixtures(now = Date.now()): Match[] {
     F('liv-bru', { comp: 'ucl', home: 'liv', away: 'bru', ko: at(2, 21, 0) }),
     F('rma-por', { comp: 'ucl', home: 'rma', away: 'por', ko: at(2, 21, 0) }),
     F('cel-atm', { comp: 'ucl', home: 'cel', away: 'atm', ko: at(2, 18, 45) }),
+
+    // ── Football · rest of the A–Z ─────────────────────────────────────
+    F('lee-bur', { comp: 'champ', home: 'lee', away: 'bur', minute: 63, goals: [['a', 19, 0], ['h', 52, 1]], corners: [7, 2], cards: [2, 3] }),
+    F('shu-mid', { comp: 'champ', home: 'shu', away: 'mid', inMin: 31 }),
+    F('nor-wba', { comp: 'champ', home: 'nor', away: 'wba', ko: at(1, 19, 45) }),
+    F('bol-wig', { comp: 'l1', home: 'bol', away: 'wig', inMin: 55 }),
+    F('rea-bar', { comp: 'l1', home: 'rea', away: 'bar-e', ko: at(1, 19, 45) }),
+    F('zar-spg', { comp: 'segunda', home: 'zar', away: 'spg', ko: at(1, 20, 30) }),
+    F('rac-dep', { comp: 'segunda', home: 'rac', away: 'dep', minute: 27, corners: [2, 3], cards: [1, 0] }),
+    F('sam-pal', { comp: 'serieb', home: 'sam', away: 'pal', ko: at(1, 20, 30) }),
+    F('bari-cre', { comp: 'serieb', home: 'bari', away: 'cre', ko: at(2, 15, 0) }),
+    F('s04-bsc', { comp: 'bl2', home: 's04', away: 'bsc', inMin: 95 }),
+    F('h96-fcn', { comp: 'bl2', home: 'h96', away: 'fcn', ko: at(2, 13, 30) }),
+    F('om-ol', { comp: 'ligue1', home: 'om', away: 'ol', minute: 39, goals: [['h', 17, 0]], corners: [3, 3], cards: [1, 2] }),
+    F('asm-losc', { comp: 'ligue1', home: 'asm', away: 'losc', ko: at(1, 21, 0) }),
+    F('rcl-ogcn', { comp: 'ligue1', home: 'rcl', away: 'ogcn', ko: at(2, 17, 0) }),
+    F('ajx-fey', { comp: 'ered', home: 'ajx', away: 'fey', inMin: 64 }),
+    F('az-twe', { comp: 'ered', home: 'az', away: 'twe', ko: at(1, 20, 0) }),
+    F('sb-vsc', { comp: 'primeira', home: 'sb', away: 'vsc', ko: at(1, 20, 15) }),
+    F('fam-gil', { comp: 'primeira', home: 'fam', away: 'gil', ko: at(2, 18, 0) }),
+    F('ran-hea', { comp: 'spl', home: 'ran', away: 'hea', ko: at(1, 19, 45) }),
+    F('abd-hib', { comp: 'spl', home: 'abd', away: 'hib', ko: at(2, 15, 0) }),
 
     // ── Other sports ───────────────────────────────────────────────────
     O('t-mor-fer', { sport: 'tennis', comp: 'atp', home: 't-moravec', away: 't-ferro', progress: 0.55, score: [1, 0], sub: [3, 2] }),

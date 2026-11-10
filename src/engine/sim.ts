@@ -108,8 +108,13 @@ function stepFootball(m: Match, dt: number, now: number, ev: SimEvent[]): Match 
   }
   if (rand() < (4.3 / 5400) * dt) {
     const side: 'h' | 'a' = rand() < 0.5 ? 'h' : 'a';
-    const cards: [number, number] = side === 'h' ? [next.cards[0] + 1, next.cards[1]] : [next.cards[0], next.cards[1] + 1];
-    next = { ...next, cards, lastEvent: { kind: 'card', side, at: now } };
+    const red = rand() < 0.07;
+    const bump = (x: [number, number]): [number, number] => (side === 'h' ? [x[0] + 1, x[1]] : [x[0], x[1] + 1]);
+    next = red
+      ? { ...next, reds: bump(next.reds), lastEvent: { kind: 'card', side, at: now, red: true }, suspendedUntil: now + 4000, suspendReason: 'Red card' }
+      : { ...next, cards: bump(next.cards), lastEvent: { kind: 'card', side, at: now } };
+    // A red card shifts the balance of the match.
+    if (red) next = side === 'h' ? { ...next, lh: next.lh * 0.72, la: next.la * 1.18 } : { ...next, la: next.la * 0.72, lh: next.lh * 1.18 };
     ev.push({ kind: 'reprice', matchId: m.id });
   }
   if (rand() < 0.0025 * dt) {

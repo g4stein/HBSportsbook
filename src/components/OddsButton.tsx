@@ -12,7 +12,7 @@ type Variant = 'compact' | 'wide' | 'cell';
  * (locked, hatched), unavailable and settled. With Open Book on it also shows
  * the fair price behind the odds.
  */
-export function OddsButton({ selId, variant = 'compact', label, className = '' }: { selId: string; variant?: Variant; label?: string; className?: string }) {
+export function OddsButton({ selId, variant = 'compact', label, className = '', inline = false }: { selId: string; variant?: Variant; label?: string; className?: string; inline?: boolean }) {
   const sel = useStore((s) => s.sel[selId]);
   const meta = useStore((s) => s.meta[selId]);
   const inSlip = useStore((s) => s.slip.some((x) => x.selId === selId));
@@ -76,9 +76,9 @@ export function OddsButton({ selId, variant = 'compact', label, className = '' }
   if (variant === 'wide') {
     return (
       <button type="button" disabled={disabled} aria-pressed={inSlip} aria-label={aria} onClick={() => toggle(selId)}
-        className={`${common} flex min-h-11 w-full items-center justify-between gap-2 px-3 py-2 text-left`}>
-        <span className={`min-w-0 truncate text-[13px] font-medium ${inSlip ? 'text-ink' : suspended ? 'text-tx3' : 'text-tx2'}`}>{text}</span>
-        <span className="flex shrink-0 flex-col items-end gap-1">
+        className={`${common} flex min-h-11 w-full items-center justify-between gap-2 px-3 py-2 text-left max-sm:flex-col max-sm:justify-center max-sm:gap-1 max-sm:px-1.5 max-sm:text-center`}>
+        <span className={`min-w-0 truncate text-[13px] font-medium max-sm:max-w-full max-sm:text-[12px] ${inSlip ? 'text-ink' : suspended ? 'text-tx3' : 'text-tx2'}`}>{text}</span>
+        <span className="flex shrink-0 flex-col items-end gap-1 max-sm:items-center">
           <span className="flex items-center gap-1">{arrow}{price}</span>
           {fair}
         </span>
@@ -98,10 +98,12 @@ export function OddsButton({ selId, variant = 'compact', label, className = '' }
 
   return (
     <button type="button" disabled={disabled} aria-pressed={inSlip} aria-label={aria} onClick={() => toggle(selId)}
-      className={`${common} flex h-12 w-full min-w-0 flex-col items-center justify-center gap-[3px] px-1.5`}>
-      <span className={`max-w-full truncate text-[10.5px] font-semibold uppercase leading-none tracking-wide ${inSlip ? 'text-ink/70' : 'text-tx3'}`}>{text}</span>
-      <span className="flex items-center gap-1">{arrow}{price}</span>
-      {fair}
+      className={`${common} flex h-12 w-full min-w-0 items-center ${inline ? 'flex-row justify-between gap-1.5 px-2.5' : 'flex-col justify-center gap-[3px] px-1.5'}`}>
+      <span className={`max-w-full truncate font-semibold leading-none ${inline ? 'shrink-0 text-[12px]' : 'text-[10.5px] uppercase tracking-wide'} ${inSlip ? 'text-ink/70' : 'text-tx3'}`}>{text}</span>
+      <span className={`flex flex-col gap-[3px] ${inline ? 'min-w-0 items-end' : 'items-center'}`}>
+        <span className="flex items-center gap-1">{arrow}{price}</span>
+        {fair}
+      </span>
     </button>
   );
 }

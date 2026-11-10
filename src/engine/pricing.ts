@@ -452,7 +452,7 @@ function footballSpecs(m: Match, now: number, only?: string): Spec[] {
     }
     specs.push({ key: `nc:${n}`, family: 'nc', familyName: 'Next corner', name: `Next corner (${ord(n)} corner)`, groups: ['cornerscards'], layout: 'grid3', marginKey: 'nc', raws });
   }
-  const tkNow = m.cards[0] + m.cards[1];
+  const tkNow = m.cards[0] + m.cards[1] + 2 * (m.reds[0] + m.reds[1]);
   for (const l of [1.5, 2.5, 3.5, 4.5, 5.5, 6.5]) {
     const key = `tk:${l}`;
     if (only && only !== key) continue;

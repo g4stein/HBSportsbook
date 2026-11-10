@@ -7,6 +7,7 @@ import type { Match } from '../types';
 import { Crest, CompBadge } from './Crest';
 import { FollowButton, LivePill } from './bits';
 import { fmtKickoff } from '../lib/format';
+import { readJSON, removeKey, writeJSON } from '../lib/storage';
 
 /**
  * Search: teams, players, competitions and markets, as the brief asks.
@@ -66,9 +67,7 @@ export function SearchOverlay() {
 function SearchDialog({ onClose }: { onClose: () => void }) {
   const [q, setQ] = useState('');
   const [active, setActive] = useState(0);
-  const [recent, setRecent] = useState<string[]>(() => {
-    try { return JSON.parse(localStorage.getItem(RECENT) || '[]'); } catch { return []; }
-  });
+  const [recent, setRecent] = useState<string[]>(() => readJSON<string[]>(RECENT, []));
   const matchesMap = useStore((s) => s.matches);
   const now = useStore((s) => Math.floor(s.now / 30000) * 30000);
   const navigate = useNavigate();
@@ -123,7 +122,7 @@ function SearchDialog({ onClose }: { onClose: () => void }) {
   const go = (r: Result) => {
     const next = [r.label, ...recent.filter((x) => x !== r.label)].slice(0, 6);
     setRecent(next);
-    localStorage.setItem(RECENT, JSON.stringify(next));
+    writeJSON(RECENT, next);
     onClose();
     navigate(r.to);
   };
@@ -168,7 +167,7 @@ function SearchDialog({ onClose }: { onClose: () => void }) {
               {recent.length > 0 && (
                 <div>
                   <p className="eyebrow mb-2 flex items-center justify-between">Recent
-                    <button type="button" className="normal-case tracking-normal text-tx3 hover:text-tx" onClick={() => { setRecent([]); localStorage.removeItem(RECENT); }}>Clear</button>
+                    <button type="button" className="normal-case tracking-normal text-tx3 hover:text-tx" onClick={() => { setRecent([]); removeKey(RECENT); }}>Clear</button>
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     {recent.map((r) => (

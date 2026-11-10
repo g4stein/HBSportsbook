@@ -12,6 +12,10 @@ export interface Competition {
   name: string;
   short: string;
   region: string;
+  /** Country code for the Football A–Z (football only). */
+  country?: string;
+  /** League tier inside its country (1 = top flight). */
+  tier?: number;
   /** Two brand colours used for the generated (non-official) badge. */
   colors: [string, string];
   featured?: boolean;
@@ -63,7 +67,10 @@ export interface Match {
   htUntil?: number;
   goals: GoalEvent[];
   corners: [number, number];
+  /** Yellow cards per side. */
   cards: [number, number];
+  /** Red cards per side (count 2 in Total cards). */
+  reds: [number, number];
   /** Order corners were taken, for "Next corner" settlement. */
   cornerLog: ('h' | 'a')[];
   /** Live expected-goals intensity (full-match equivalent) used by the model. */
@@ -85,7 +92,7 @@ export interface Match {
   /** Per-market suspension, keyed by market key. */
   marketSuspend: Record<string, number>;
   /** Last notable event for flash animations. */
-  lastEvent?: { kind: 'goal' | 'card' | 'corner'; side: 'h' | 'a'; at: number };
+  lastEvent?: { kind: 'goal' | 'card' | 'corner'; side: 'h' | 'a'; at: number; red?: boolean };
   finishedAt?: number;
 }
 

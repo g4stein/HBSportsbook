@@ -86,7 +86,7 @@ function Btn({ onClick, disabled, children }: { onClick: () => void; disabled?: 
 export function Switch({ on, onClick, label }: { on: boolean; onClick: () => void; label: string }) {
   return (
     <button type="button" role="switch" aria-checked={on} aria-label={label} onClick={onClick} className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${on ? 'bg-accent' : 'bg-s5'}`}>
-      <span className={`absolute top-0.5 size-5 rounded-full bg-white shadow transition-transform ${on ? 'translate-x-5.5' : 'translate-x-0.5'}`} />
+      <span className={`absolute left-0 top-0.5 size-5 rounded-full bg-white shadow transition-transform ${on ? 'translate-x-5.5' : 'translate-x-0.5'}`} />
     </button>
   );
 }

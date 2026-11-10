@@ -23,7 +23,7 @@ export function OpenBookToggle({ size = 'md' }: { size?: 'sm' | 'md' }) {
         {on ? <Eye size={15} /> : <EyeOff size={15} />}
         Open Book
         <span className={`relative h-4 w-7 rounded-full transition-colors ${on ? 'bg-accent' : 'bg-s5'}`} aria-hidden>
-          <span className={`absolute top-0.5 size-3 rounded-full bg-white transition-transform ${on ? 'translate-x-3.5' : 'translate-x-0.5'}`} />
+          <span className={`absolute left-0 top-0.5 size-3 rounded-full bg-white transition-transform ${on ? 'translate-x-3.5' : 'translate-x-0.5'}`} />
         </span>
       </button>
       <InfoTip label="What is Open Book?">
@@ -120,8 +120,8 @@ function OpenBookArt() {
     <svg viewBox="0 0 320 200" className="h-full w-full" preserveAspectRatio="xMidYMid slice">
       <defs>
         <linearGradient id="obg" x1="0" x2="1">
-          <stop offset="0" stopColor="#0b1a21" />
-          <stop offset="1" stopColor="#0b1a21" stopOpacity="0" />
+          <stop offset="0" stopColor="#0f2129" />
+          <stop offset="1" stopColor="#0f2129" stopOpacity="0" />
         </linearGradient>
       </defs>
       <g fontFamily="Red Hat Display, sans-serif" fontWeight="800">
