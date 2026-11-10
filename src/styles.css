@@ -2,7 +2,7 @@
 
 /*
  * Housebets Sportsbook design tokens.
- * Derived from the live Housebets shell: deep teal surfaces (#0B1920 theme),
+ * Derived from the live Housebets shell: page surface #0B1920 (their theme colour),
  * cyan brand accent (#02F7FD), gold for money/prizes, Figtree for text and
  * Red Hat Display for numbers and headings. Odds use tabular figures so prices
  * never jitter when they move.
@@ -11,12 +11,12 @@
   --font-sans: 'Figtree Variable', 'Figtree', ui-sans-serif, system-ui, sans-serif;
   --font-display: 'Red Hat Display', 'Figtree Variable', ui-sans-serif, system-ui, sans-serif;
 
-  --color-bg: #061318;
-  --color-s1: #0b1a21;
-  --color-s2: #0f2129;
-  --color-s3: #142a34;
-  --color-s4: #1a3541;
-  --color-s5: #214252;
+  --color-bg: #0b1920;
+  --color-s1: #0f2129;
+  --color-s2: #132830;
+  --color-s3: #18303a;
+  --color-s4: #1e3b47;
+  --color-s5: #264856;
   --color-line: rgb(160 205 225 / 0.08);
   --color-line2: rgb(160 205 225 / 0.15);
   --color-tx: #f4f8fa;

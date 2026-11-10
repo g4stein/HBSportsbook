@@ -17,9 +17,9 @@ export function HouseMark({ size = 28, ...p }: P) {
 export function Wordmark({ className = '' }: { className?: string }) {
   return (
     <span className={`flex items-center gap-2 ${className}`}>
-      <HouseMark size={28} />
-      <span className="font-display text-[19px] font-extrabold tracking-[-0.01em] text-tx max-sm:hidden">
-        house<span className="text-accent">bets</span>
+      <span className="sm:hidden"><HouseMark size={28} /></span>
+      <span className="font-display text-[22px] font-extrabold tracking-[-0.015em] text-tx max-sm:hidden">
+        <span className="text-accent">H</span>ousebets
       </span>
     </span>
   );

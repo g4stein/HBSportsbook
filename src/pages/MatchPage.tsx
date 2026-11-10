@@ -8,7 +8,7 @@ import { Crest, CompBadge } from '../components/Crest';
 import { EdgeChip, FollowButton, InfoTip, LiveClock, LivePill, clockText } from '../components/bits';
 import { OddsButton } from '../components/OddsButton';
 import { OpenBookToggle } from '../components/sports';
-import { clockSeconds, selId } from '../engine/pricing';
+import { selId } from '../engine/pricing';
 import { fmtKickoff, fmtPct } from '../lib/format';
 import { SportIcon } from '../components/icons';
 
@@ -168,12 +168,19 @@ function Scoreboard({ m }: { m: Match }) {
           <TeamSide id={A.id} align="left" scorers={football ? scorers('a') : null} />
         </div>
 
-        {football && m.status !== 'pre' && <Timeline m={m} now={now} />}
         {football && m.status !== 'pre' && (
-          <div className="num mt-3 flex items-center justify-center gap-5 text-[12px] text-tx2">
-            <span className="flex items-center gap-1.5"><CornerFlag /> Corners <b className="text-tx">{m.corners[0]}–{m.corners[1]}</b></span>
-            <span className="flex items-center gap-1.5"><span className="h-3 w-2 rounded-[2px] bg-warn" aria-hidden /> Cards <b className="text-tx">{m.cards[0]}–{m.cards[1]}</b></span>
-          </div>
+          <dl className="num mx-auto mt-5 grid max-w-[420px] grid-cols-3 gap-2 text-center" aria-label="Match indicators">
+            {([
+              ['Corners', m.corners, <CornerFlag key="c" />],
+              ['Yellow cards', m.cards, <span key="y" className="h-3 w-2 rounded-[2px] bg-warn" aria-hidden />],
+              ['Red cards', m.reds, <span key="r" className="h-3 w-2 rounded-[2px] bg-live" aria-hidden />],
+            ] as const).map(([label, v, icon]) => (
+              <div key={label} className={`rounded-lg border border-line bg-bg/50 px-2 py-1.5 ${m.lastEvent && now - m.lastEvent.at < 6000 && ((label === 'Corners' && m.lastEvent.kind === 'corner') || (label === 'Yellow cards' && m.lastEvent.kind === 'card' && !m.lastEvent.red) || (label === 'Red cards' && m.lastEvent.red)) ? 'border-accent/40' : ''}`}>
+                <dt className="flex items-center justify-center gap-1.5 font-sans text-[10.5px] font-semibold uppercase tracking-wide text-tx3">{icon}{label}</dt>
+                <dd className="mt-0.5 text-[15px] font-bold text-tx">{v[0]}<span className="mx-1 text-tx3">–</span>{v[1]}</dd>
+              </div>
+            ))}
+          </dl>
         )}
       </div>
     </section>
@@ -195,23 +202,6 @@ function TeamSide({ id, align, scorers }: { id: string; align: 'left' | 'right';
           </span>
         )}
       </div>
-    </div>
-  );
-}
-
-function Timeline({ m, now }: { m: Match; now: number }) {
-  const sec = Math.min(5400, clockSeconds(m, now));
-  const pct = (sec / 5400) * 100;
-  return (
-    <div className="mt-5" aria-hidden>
-      <div className="relative h-1.5 rounded-full bg-s4">
-        <div className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-accent2 to-accent" style={{ width: `${pct}%` }} />
-        <div className="absolute -top-1 bottom-[-4px] left-1/2 w-px bg-tx3/60" />
-        {m.goals.map((g, i) => (
-          <span key={i} className={`absolute size-3 -translate-x-1/2 rounded-full border-2 border-s1 ${g.side === 'h' ? '-top-[14px] bg-tx' : 'top-[8px] bg-tx2'}`} style={{ left: `${Math.min(100, (g.minute / 90) * 100)}%` }} />
-        ))}
-      </div>
-      <div className="num mt-1.5 flex justify-between text-[10px] font-semibold text-tx3"><span>0&rsquo;</span><span>HT</span><span>90&rsquo;</span></div>
     </div>
   );
 }

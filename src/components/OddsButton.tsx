@@ -12,7 +12,7 @@ type Variant = 'compact' | 'wide' | 'cell';
  * (locked, hatched), unavailable and settled. With Open Book on it also shows
  * the fair price behind the odds.
  */
-export function OddsButton({ selId, variant = 'compact', label, className = '' }: { selId: string; variant?: Variant; label?: string; className?: string }) {
+export function OddsButton({ selId, variant = 'compact', label, className = '', inline = false }: { selId: string; variant?: Variant; label?: string; className?: string; inline?: boolean }) {
   const sel = useStore((s) => s.sel[selId]);
   const meta = useStore((s) => s.meta[selId]);
   const inSlip = useStore((s) => s.slip.some((x) => x.selId === selId));
@@ -98,10 +98,12 @@ export function OddsButton({ selId, variant = 'compact', label, className = '' }
 
   return (
     <button type="button" disabled={disabled} aria-pressed={inSlip} aria-label={aria} onClick={() => toggle(selId)}
-      className={`${common} flex h-12 w-full min-w-0 flex-col items-center justify-center gap-[3px] px-1.5`}>
-      <span className={`max-w-full truncate text-[10.5px] font-semibold uppercase leading-none tracking-wide ${inSlip ? 'text-ink/70' : 'text-tx3'}`}>{text}</span>
-      <span className="flex items-center gap-1">{arrow}{price}</span>
-      {fair}
+      className={`${common} flex h-12 w-full min-w-0 items-center ${inline ? 'flex-row justify-between gap-1.5 px-2.5' : 'flex-col justify-center gap-[3px] px-1.5 sm:flex-row sm:justify-between sm:gap-1.5 sm:px-2.5'}`}>
+      <span className={`max-w-full truncate font-semibold leading-none ${inline ? 'text-[12px]' : 'text-[10.5px] uppercase tracking-wide sm:text-[12px] sm:normal-case sm:tracking-normal'} ${inSlip ? 'text-ink/70' : 'text-tx3'}`}>{text}</span>
+      <span className={`flex flex-col gap-[3px] ${inline ? 'items-end' : 'items-center sm:items-end'}`}>
+        <span className="flex items-center gap-1">{arrow}{price}</span>
+        {fair}
+      </span>
     </button>
   );
 }

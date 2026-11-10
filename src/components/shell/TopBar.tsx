@@ -18,7 +18,7 @@ export function TopBar() {
   const collapsed = useStore((s) => s.navCollapsed);
 
   return (
-    <header className="sticky top-0 z-[1350] h-14 border-b border-line bg-[#0a1a21]/95 backdrop-blur lg:h-16">
+    <header className="sticky top-0 z-[1350] h-14 border-b border-line bg-bg/95 backdrop-blur lg:h-16">
       <div className="flex h-full items-center gap-2 px-3 sm:px-4">
         <button type="button" onClick={() => set({ navCollapsed: !collapsed })} aria-label="Toggle menu" aria-pressed={!collapsed} className={`${iconBtn} hidden lg:inline-flex`}>
           <PanelLeft size={19} />

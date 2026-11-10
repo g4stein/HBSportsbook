@@ -70,12 +70,13 @@ export function NavContent({ collapsed = false, onNavigate }: { collapsed?: bool
       <Group collapsed={collapsed}>
         <Item to="/sports" icon={<House size={18} />} label="Sports home" active={path === '/sports'} collapsed={collapsed} onClick={onNavigate} />
         <Item to="/sports/live" icon={<SportIcon sport="live" />} label="Live" active={path === '/sports/live'} badge={<Count n={liveBy()} live />} live={liveBy() > 0} collapsed={collapsed} onClick={onNavigate} />
+        <Item to="/sports/football?filter=following" icon={<Star size={18} />} label="Following" active={path === '/sports/football' && params.get('filter') === 'following'} badge={<Count n={all.filter((m) => m.status !== 'ft' && (followTeams.includes(m.home) || followTeams.includes(m.away) || followComps.includes(m.compId))).length} />} collapsed={collapsed} onClick={onNavigate} />
         <Item to="/sports/bets" icon={<Ticket size={18} />} label="My bets" active={path === '/sports/bets'} badge={<Count n={openBets} />} collapsed={collapsed} onClick={onNavigate} />
       </Group>
 
       <Group title="Sports" collapsed={collapsed}>
         {SPORTS.map((s) => (
-          <Item key={s.id} to={`/sports/${s.id}`} icon={<SportIcon sport={s.id} />} label={s.name} active={path === `/sports/${s.id}` && !comp} badge={<Count n={liveBy(s.id)} live />} live={liveBy(s.id) > 0} collapsed={collapsed} onClick={onNavigate} />
+          <Item key={s.id} to={`/sports/${s.id}`} icon={<SportIcon sport={s.id} />} label={s.name} active={path === `/sports/${s.id}` && !comp && !params.get('filter')} badge={<Count n={liveBy(s.id)} live />} live={liveBy(s.id) > 0} collapsed={collapsed} onClick={onNavigate} />
         ))}
       </Group>
 

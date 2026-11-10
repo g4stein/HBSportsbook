@@ -6,6 +6,7 @@ import { buildMarketByKey, buildMarkets, parseSelId } from './engine/pricing';
 import { applyGoal, drift, stepMatch, type SimEvent } from './engine/sim';
 import { fmtUsdt, parseStake } from './lib/format';
 import { rand } from './lib/rng';
+import { readJSON, writeJSON } from './lib/storage';
 
 /** All money in this prototype is demo USDT. Nothing is sent anywhere. */
 export const START_BALANCE = 250;
@@ -24,11 +25,7 @@ interface Persisted {
 }
 function loadPersisted(): Persisted {
   const d: Persisted = { followTeams: ['ars'], followComps: ['pl'], openBook: false, introDismissed: false };
-  try {
-    return { ...d, ...JSON.parse(localStorage.getItem(LS) || '{}') };
-  } catch {
-    return d;
-  }
+  return { ...d, ...readJSON<Partial<Persisted>>(LS, {}) };
 }
 
 export interface State {
@@ -465,7 +462,7 @@ export function cashoutValue(b: Bet, sel: Selection) {
 // demo always starts from a coherent state.
 useStore.subscribe((s, p) => {
   if (s.followTeams !== p.followTeams || s.followComps !== p.followComps || s.openBook !== p.openBook || s.introDismissed !== p.introDismissed) {
-    localStorage.setItem(LS, JSON.stringify({ followTeams: s.followTeams, followComps: s.followComps, openBook: s.openBook, introDismissed: s.introDismissed }));
+    writeJSON(LS, { followTeams: s.followTeams, followComps: s.followComps, openBook: s.openBook, introDismissed: s.introDismissed });
   }
 });
 
