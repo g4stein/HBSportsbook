@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ChevronDown, ChevronRight, Star, X } from 'lucide-react';
+import { useShallow } from 'zustand/react/shallow';
 import { useStore } from '../store';
 import { COMPETITIONS, COUNTRIES, compById, teamById, TEAMS, teamHomeComp } from '../data/catalog';
 import type { Match } from '../types';
@@ -41,7 +42,7 @@ export function FootballPage() {
   const teams = useStore((s) => s.followTeams);
   const comps = useStore((s) => s.followComps);
   const ids = useShallowIds((m) => m.sport === 'football' && passes(m, filter, teams, comps) && (!activeComp || m.compId === activeComp.id), byTime);
-  const counts = useStore((s) => {
+  const counts = useStore(useShallow((s) => {
     const all = Object.values(s.matches).filter((m) => m.sport === 'football' && (!activeComp || m.compId === activeComp.id));
     return {
       all: all.filter((m) => m.status !== 'ft').length,
@@ -49,7 +50,7 @@ export function FootballPage() {
       upcoming: all.filter((m) => m.status === 'pre').length,
       following: all.filter((m) => passes(m, 'following', s.followTeams, s.followComps)).length,
     };
-  });
+  }));
 
   const go = (next: { comp?: string | null; filter?: Filter }) => {
     const c = next.comp === undefined ? comp : next.comp;

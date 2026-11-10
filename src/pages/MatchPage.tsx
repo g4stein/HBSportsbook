@@ -12,6 +12,8 @@ import { selId } from '../engine/pricing';
 import { fmtKickoff, fmtPct } from '../lib/format';
 import { SportIcon } from '../components/icons';
 
+const NO_MARKETS: Market[] = [];
+
 const GROUPS: { id: MarketGroup; label: string }[] = [
   { id: 'popular', label: 'Popular' },
   { id: 'goals', label: 'Goals' },
@@ -30,7 +32,7 @@ export function MatchPage() {
 
 function MatchView({ id }: { id: string }) {
   const m = useStore((s) => s.matches[id]);
-  const markets = useStore((s) => s.markets[id] ?? []);
+  const markets = useStore((s) => s.markets[id] ?? NO_MARKETS);
   const openBook = useStore((s) => s.openBook);
   const [params, setParams] = useSearchParams();
   const football = m.sport === 'football';
@@ -172,11 +174,11 @@ function Scoreboard({ m }: { m: Match }) {
           <dl className="num mx-auto mt-5 grid max-w-[420px] grid-cols-3 gap-2 text-center" aria-label="Match indicators">
             {([
               ['Corners', m.corners, <CornerFlag key="c" />],
-              ['Yellow cards', m.cards, <span key="y" className="h-3 w-2 rounded-[2px] bg-warn" aria-hidden />],
-              ['Red cards', m.reds, <span key="r" className="h-3 w-2 rounded-[2px] bg-live" aria-hidden />],
+              ['Yellow', m.cards, <span key="y" className="h-3 w-2 rounded-[2px] bg-warn" aria-hidden />],
+              ['Red', m.reds, <span key="r" className="h-3 w-2 rounded-[2px] bg-live" aria-hidden />],
             ] as const).map(([label, v, icon]) => (
-              <div key={label} className={`rounded-lg border border-line bg-bg/50 px-2 py-1.5 ${m.lastEvent && now - m.lastEvent.at < 6000 && ((label === 'Corners' && m.lastEvent.kind === 'corner') || (label === 'Yellow cards' && m.lastEvent.kind === 'card' && !m.lastEvent.red) || (label === 'Red cards' && m.lastEvent.red)) ? 'border-accent/40' : ''}`}>
-                <dt className="flex items-center justify-center gap-1.5 font-sans text-[10.5px] font-semibold uppercase tracking-wide text-tx3">{icon}{label}</dt>
+              <div key={label} className={`rounded-lg border border-line bg-bg/50 px-2 py-1.5 ${m.lastEvent && now - m.lastEvent.at < 6000 && ((label === 'Corners' && m.lastEvent.kind === 'corner') || (label === 'Yellow' && m.lastEvent.kind === 'card' && !m.lastEvent.red) || (label === 'Red' && m.lastEvent.red)) ? 'border-accent/40' : ''}`}>
+                <dt className="flex items-center justify-center gap-1.5 font-sans text-[10.5px] font-semibold uppercase tracking-wide text-tx3">{icon}{label}{label !== 'Corners' && <span className="max-sm:sr-only">&nbsp;cards</span>}</dt>
                 <dd className="mt-0.5 text-[15px] font-bold text-tx">{v[0]}<span className="mx-1 text-tx3">–</span>{v[1]}</dd>
               </div>
             ))}
